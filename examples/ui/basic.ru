@@ -48,6 +48,15 @@ Flipper::UI.configure do |config|
   end
 
   config.application_href = "https://example.com"
+
+  config.expression_properties = {
+    "client_version" => { "type" => "number" },
+    "client_type" => { "type" => "string" },
+    "product" => { "type" => "string" },
+    "identified" => { "type" => "boolean" }
+  }
+
+  config.expressions_enabled = true
 end
 
 # You can uncomment these to get some default data:
