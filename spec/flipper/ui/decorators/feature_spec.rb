@@ -91,9 +91,9 @@ RSpec.describe Flipper::UI::Decorators::Feature do
       expect(subject.expression_summary).to eq("age ≥ 21")
     end
 
-    it 'returns "Any of 0 conditions" for empty Any expression' do
+    it 'returns "any 0 conditions" for empty Any expression' do
       allow(feature).to receive(:expression_value).and_return({"Any" => []})
-      expect(subject.expression_summary).to eq("Any of 0 conditions")
+      expect(subject.expression_summary).to eq("any 0 conditions")
     end
   end
 

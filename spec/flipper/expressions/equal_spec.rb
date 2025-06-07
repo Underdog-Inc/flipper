@@ -21,4 +21,23 @@ RSpec.describe Flipper::Expressions::Equal do
       expect { described_class.call(10) }.to raise_error(ArgumentError)
     end
   end
+
+  describe ".in_words" do
+    it "returns formatted string for string values" do
+      expect(described_class.in_words("plan", "basic")).to eq("plan is equal to basic")
+    end
+
+    it "returns formatted string for numeric values" do
+      expect(described_class.in_words("score", 100)).to eq("score is equal to 100")
+    end
+
+    it "returns formatted string for boolean values" do
+      expect(described_class.in_words("active", true)).to eq("active is equal to true")
+      expect(described_class.in_words("disabled", false)).to eq("disabled is equal to false")
+    end
+
+    it "returns formatted string for mixed value types" do
+      expect(described_class.in_words("count", "5")).to eq("count is equal to 5")
+    end
+  end
 end

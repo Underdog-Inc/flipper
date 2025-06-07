@@ -16,6 +16,10 @@ module Flipper
         value
       end
 
+      def display_value
+        value
+      end
+
       def eql?(other)
         other.is_a?(self.class) && other.value == value
       end

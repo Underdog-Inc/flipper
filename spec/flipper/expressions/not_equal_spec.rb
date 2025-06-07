@@ -12,4 +12,22 @@ RSpec.describe Flipper::Expressions::NotEqual do
       expect { described_class.call(20, 10, 20).evaluate }.to raise_error(ArgumentError)
     end
   end
+
+  describe ".in_words" do
+    it "returns formatted string for string values" do
+      expect(described_class.in_words("status", "inactive")).to eq("status is not equal to inactive")
+    end
+
+    it "returns formatted string for numeric values" do
+      expect(described_class.in_words("count", 0)).to eq("count is not equal to 0")
+    end
+
+    it "returns formatted string for boolean values" do
+      expect(described_class.in_words("enabled", false)).to eq("enabled is not equal to false")
+    end
+
+    it "returns formatted string for mixed value types" do
+      expect(described_class.in_words("version", 1.5)).to eq("version is not equal to 1.5")
+    end
+  end
 end

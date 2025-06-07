@@ -45,6 +45,20 @@ module Flipper
       end
     end
 
+    def in_words
+      display_args = args.map(&:display_value)
+      function.in_words(*display_args)
+    end
+
+    def display_value
+      # Delegate to function's display_value method if it exists
+      if function.respond_to?(:display_value)
+        function.display_value(*args)
+      else
+        value
+      end
+    end
+
     def eql?(other)
       other.is_a?(self.class) && @function == other.function && @args == other.args
     end

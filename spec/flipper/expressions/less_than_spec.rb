@@ -29,4 +29,22 @@ RSpec.describe Flipper::Expressions::LessThan do
       expect { described_class.call(10) }.to raise_error(ArgumentError)
     end
   end
+
+  describe ".in_words" do
+    it "returns formatted string for numeric values" do
+      expect(described_class.in_words("price", 50)).to eq("price is less than 50")
+    end
+
+    it "returns formatted string for decimal values" do
+      expect(described_class.in_words("discount", 0.5)).to eq("discount is less than 0.5")
+    end
+
+    it "returns formatted string for string values" do
+      expect(described_class.in_words("priority", "high")).to eq("priority is less than high")
+    end
+
+    it "returns formatted string for zero comparison" do
+      expect(described_class.in_words("value", 0)).to eq("value is less than 0")
+    end
+  end
 end
