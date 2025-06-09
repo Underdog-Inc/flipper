@@ -254,9 +254,9 @@
             <div class="row align-items-center">
               <div class="col col-me-auto">
                 <h6 class="m-0">
-                  <strong class="<%= "text-muted" unless @feature.has_expression? %>">
-                    <% if @feature.has_expression? %>
-                      Enabled for actors with <%= @feature.expression_description %>
+                  <strong class="<%= "text-muted" unless @feature.expression %>">
+                    <% if @feature.expression %>
+                      Enabled for actors where <%= @feature.expression.in_words %>
                     <% else %>
                       No expression enabled
                     <% end %>
@@ -266,7 +266,7 @@
               <% if write_allowed? %>
                 <div class="col col-auto toggle-block-when-off">
                   <button class="btn btn-outline-secondary js-toggle-trigger">
-                    <%= @feature.has_expression? ? "Edit" : "Add an expression" %>
+                    <%= @feature.expression ? "Edit" : "Add an expression" %>
                   </button>
                 </div>
                 <div class="col col-auto toggle-block-when-on">
@@ -300,7 +300,7 @@
                       </button>
                     </span>
                   </div>
-                  <% if @feature.has_expression? %>
+                  <% if @feature.expression %>
                     <div class="col-auto">
                       <form action="<%= script_name %>/features/<%= Flipper::UI::Util.escape @feature.key %>/expression" method="post">
                         <%== csrf_input_tag %>

@@ -56,8 +56,8 @@ module Flipper
             statuses << "#{feature.percentage_of_time_value}% of time"
           end
 
-          if has_expression?
-            statuses << "actors with #{expression_summary}"
+          if feature.expression
+            statuses << "actors where #{feature.expression.in_words}"
           end
 
           Util.to_sentence(statuses)
@@ -100,46 +100,6 @@ module Flipper
         # Public: Returns the state for just the expression gate.
         def expression_state
           has_expression? ? :conditional : :off
-        end
-
-        # Public: Get human-readable summary of the expression.
-        def expression_summary
-          case expression_type
-          when :simple
-            parse_simple_expression do |property_name, operator, value_part|
-              operator_text = format_operator(operator)
-              return "#{property_name} #{operator_text} #{format_value(value_part)}"
-            end
-          when :complex_any
-            count = complex_expression_condition_count
-            return "any #{count} condition#{'s' if count != 1}"
-          when :complex_all
-            count = complex_expression_condition_count
-            return "all #{count} condition#{'s' if count != 1}"
-          else
-            return "none"
-          end
-        end
-
-        # Public: Get detailed human-readable description of the expression.
-        def expression_description
-          case expression_type
-          when :simple
-            parse_simple_expression do |property_name, operator, value_part|
-              operator_text = format_operator_verbose(operator)
-              return "#{property_name} #{operator_text} #{format_value(value_part)}"
-            end
-          when :complex_any
-            count = complex_expression_condition_count
-            return "any #{count} condition#{'s' if count != 1}"
-          when :complex_all
-            count = complex_expression_condition_count
-            return "all #{count} condition#{'s' if count != 1}"
-          when :none
-            return "No expression set"
-          else
-            return "Invalid expression format"
-          end
         end
 
         # Public: Extract form values from current expression for editing.
@@ -209,14 +169,12 @@ module Flipper
         private
 
         # Parse simple expression and yield property name, operator, and value if found.
-        # Returns early from block if simple expression is found, otherwise continues execution.
         def parse_simple_expression
           return unless has_expression?
 
           expr_value = feature.expression_value
           return unless expr_value.is_a?(Hash)
 
-          # Handle simple comparison expressions like {"Equal": [{"Property": ["plan"]}, "basic"]}
           expr_value.each do |operator, args|
             next unless args.is_a?(Array) && args.length == 2
 
@@ -239,7 +197,6 @@ module Flipper
           expr_value = feature.expression_value
           return unless expr_value.is_a?(Hash)
 
-          # Handle complex expressions like {"Any": [...]} or {"All": [...]}
           %w[Any All].each do |operator|
             if expr_value.has_key?(operator) && expr_value[operator].is_a?(Array)
               yield operator, expr_value[operator]
@@ -263,46 +220,6 @@ module Flipper
           end
 
           :none
-        end
-
-        # Count number of conditions in complex expression
-        def complex_expression_condition_count
-          parse_complex_expression do |operator, conditions|
-            return conditions.length
-          end
-          0
-        end
-
-        def format_operator(operator)
-          case operator
-          when "Equal" then "="
-          when "NotEqual" then "≠"
-          when "GreaterThan" then ">"
-          when "GreaterThanOrEqualTo" then "≥"
-          when "LessThan" then "<"
-          when "LessThanOrEqualTo" then "≤"
-          else operator.downcase
-          end
-        end
-
-        def format_operator_verbose(operator)
-          case operator
-          when "Equal" then "equals"
-          when "NotEqual" then "does not equal"
-          when "GreaterThan" then "is greater than"
-          when "GreaterThanOrEqualTo" then "is greater than or equal to"
-          when "LessThan" then "is less than"
-          when "LessThanOrEqualTo" then "is less than or equal to"
-          else operator.downcase
-          end
-        end
-
-        def format_value(value)
-          case value
-          when String then "\"#{value}\""
-          when true, false then value.to_s
-          else value.to_s
-          end
         end
 
         def map_expression_operator_to_form(operator)

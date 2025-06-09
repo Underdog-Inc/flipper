@@ -74,52 +74,13 @@ RSpec.describe Flipper::UI::Decorators::Feature do
     end
   end
 
-  describe '#expression_summary' do
-    it 'returns "none" when no expression is set' do
-      expect(subject.expression_summary).to eq("none")
-    end
 
-    it 'returns formatted summary for simple comparison' do
-      expression = Flipper.property(:plan).eq("basic")
-      feature.enable_expression(expression)
-      expect(subject.expression_summary).to eq('plan = "basic"')
-    end
-
-    it 'returns formatted summary for numeric comparison' do
-      expression = Flipper.property(:age).gte(21)
-      feature.enable_expression(expression)
-      expect(subject.expression_summary).to eq("age ≥ 21")
-    end
-
-    it 'returns "any 0 conditions" for empty Any expression' do
-      allow(feature).to receive(:expression_value).and_return({"Any" => []})
-      expect(subject.expression_summary).to eq("any 0 conditions")
-    end
-  end
-
-  describe '#expression_description' do
-    it 'returns "No expression set" when no expression is set' do
-      expect(subject.expression_description).to eq("No expression set")
-    end
-
-    it 'returns verbose description for simple comparison' do
-      expression = Flipper.property(:plan).eq("basic")
-      feature.enable_expression(expression)
-      expect(subject.expression_description).to eq('plan equals "basic"')
-    end
-
-    it 'returns verbose description for numeric comparison' do
-      expression = Flipper.property(:age).lt(18)
-      feature.enable_expression(expression)
-      expect(subject.expression_description).to eq("age is less than 18")
-    end
-  end
 
   describe '#gates_in_words' do
     it 'includes expression in the summary when expression is set' do
       expression = Flipper.property(:plan).eq("basic")
       feature.enable_expression(expression)
-      expect(subject.gates_in_words).to include('actors with plan = "basic"')
+      expect(subject.gates_in_words).to include('actors where plan is equal to basic')
     end
 
     it 'does not include expression when no expression is set' do
