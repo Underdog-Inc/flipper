@@ -1,7 +1,7 @@
 require 'delegate'
 require 'flipper/ui/decorators/gate'
-require 'flipper/ui/decorators/expression'
 require 'flipper/ui/util'
+require 'flipper/ui/expression_serializer'
 
 module Flipper
   module UI
@@ -95,7 +95,7 @@ module Flipper
 
         # Public: Get complete form initialization data for JavaScript.
         def expression_form_data
-          Decorators::Expression.new(feature.expression).form_data
+          ExpressionSerializer.serialize(expression)
         end
       end
     end
