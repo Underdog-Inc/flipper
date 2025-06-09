@@ -16,7 +16,7 @@ module Flipper
         value
       end
 
-      def display_value
+      def in_words
         value
       end
 

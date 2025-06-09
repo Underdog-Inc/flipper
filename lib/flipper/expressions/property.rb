@@ -5,9 +5,8 @@ module Flipper
         context.dig(:properties, key.to_s)
       end
 
-      def self.display_value(key_expression)
-        # For property expressions, return the property name for display
-        key_expression.value
+      def self.in_words(arg)
+        arg.in_words
       end
     end
   end

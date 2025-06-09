@@ -5,8 +5,8 @@ module Flipper
         args.all?
       end
 
-      def self.in_words(*conditions)
-        count = conditions.length
+      def self.in_words(*args)
+        count = args.length
         "all #{count} condition#{'s' if count != 1}"
       end
     end

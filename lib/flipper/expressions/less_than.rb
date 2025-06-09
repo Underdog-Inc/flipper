@@ -5,8 +5,8 @@ module Flipper
         :<
       end
 
-      def self.in_words(left, right)
-        "#{left} is less than #{right}"
+      def self.operator_in_words
+        "less than"
       end
     end
   end

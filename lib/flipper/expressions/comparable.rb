@@ -10,6 +10,10 @@ module Flipper
       end
 
       def self.in_words(left, right)
+        "#{left.in_words} is #{operator_in_words} #{right.in_words}"
+      end
+
+      def self.operator_in_words
         raise NotImplementedError
       end
     end

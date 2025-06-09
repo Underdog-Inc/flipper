@@ -24,20 +24,30 @@ RSpec.describe Flipper::Expressions::Equal do
 
   describe ".in_words" do
     it "returns formatted string for string values" do
-      expect(described_class.in_words("plan", "basic")).to eq("plan is equal to basic")
+      left = double("left", in_words: "plan")
+      right = double("right", in_words: "basic")
+      expect(described_class.in_words(left, right)).to eq("plan is equal to basic")
     end
 
     it "returns formatted string for numeric values" do
-      expect(described_class.in_words("score", 100)).to eq("score is equal to 100")
+      left = double("left", in_words: "score")
+      right = double("right", in_words: "100")
+      expect(described_class.in_words(left, right)).to eq("score is equal to 100")
     end
 
     it "returns formatted string for boolean values" do
-      expect(described_class.in_words("active", true)).to eq("active is equal to true")
-      expect(described_class.in_words("disabled", false)).to eq("disabled is equal to false")
+      left = double("left", in_words: "active")
+      right = double("right", in_words: "true")
+      expect(described_class.in_words(left, right)).to eq("active is equal to true")
+      left = double("left", in_words: "disabled")
+      right = double("right", in_words: "false")
+      expect(described_class.in_words(left, right)).to eq("disabled is equal to false")
     end
 
     it "returns formatted string for mixed value types" do
-      expect(described_class.in_words("count", "5")).to eq("count is equal to 5")
+      left = double("left", in_words: "count")
+      right = double("right", in_words: "5")
+      expect(described_class.in_words(left, right)).to eq("count is equal to 5")
     end
   end
 end

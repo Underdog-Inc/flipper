@@ -28,19 +28,27 @@ RSpec.describe Flipper::Expressions::GreaterThanOrEqualTo do
 
   describe ".in_words" do
     it "returns formatted string for numeric values" do
-      expect(described_class.in_words("age", 18)).to eq("age is greater than or equal to 18")
+      left = double("left", in_words: "age")
+      right = double("right", in_words: "18")
+      expect(described_class.in_words(left, right)).to eq("age is greater than or equal to 18")
     end
 
     it "returns formatted string for decimal values" do
-      expect(described_class.in_words("minimum", 5.5)).to eq("minimum is greater than or equal to 5.5")
+      left = double("left", in_words: "minimum")
+      right = double("right", in_words: "5.5")
+      expect(described_class.in_words(left, right)).to eq("minimum is greater than or equal to 5.5")
     end
 
     it "returns formatted string for string values" do
-      expect(described_class.in_words("level", "intermediate")).to eq("level is greater than or equal to intermediate")
+      left = double("left", in_words: "level")
+      right = double("right", in_words: "intermediate")
+      expect(described_class.in_words(left, right)).to eq("level is greater than or equal to intermediate")
     end
 
     it "returns formatted string for zero values" do
-      expect(described_class.in_words("balance", 0)).to eq("balance is greater than or equal to 0")
+      left = double("left", in_words: "balance")
+      right = double("right", in_words: "0")
+      expect(described_class.in_words(left, right)).to eq("balance is greater than or equal to 0")
     end
   end
 end
