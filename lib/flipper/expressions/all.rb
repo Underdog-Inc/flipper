@@ -1,13 +1,15 @@
 module Flipper
   module Expressions
-    class All < Quantifier
+    class All
       def self.call(*args)
         args.all?
       end
 
       def self.in_words(*args)
         count = args.length
-        "all #{count} condition#{'s' if count != 1}"
+        return args.in_words if count == 1
+
+        "all #{count} conditions"
       end
     end
   end

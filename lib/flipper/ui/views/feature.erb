@@ -270,78 +270,7 @@
 
           <% if write_allowed? %>
             <div class="card-body border-bottom toggle-block-when-on bg-lightest">
-              <div class="row mb-3">
-                <div class="col">
-                  <div class="btn-group" role="group">
-                    <input type="radio" class="btn-check" name="name" id="expression-type-comparable" value="Comparable" autocomplete="off" <%= "checked" if Flipper::Expressions::Comparable.subclasses.map { |klass| Flipper::UI::Util.demodulize klass.name }.include? @feature.expression&.name %>>
-                    <label class="btn btn-light" for="expression-type-comparable">Comparable</label>
-
-                    <% Flipper::Expressions::Quantifier.subclasses.map { |klass| Flipper::UI::Util.demodulize klass.name }.each do |name| %>
-                      <input type="radio" class="btn-check" name="name" id="expression-type-<%= name.downcase %>" value="<%= name %>" autocomplete="off" <%= "checked" if @feature.expression&.name == name %>>
-                      <label class="btn btn-light" for="expression-type-<%= name.downcase %>"><%= name %></label>
-                    <% end %>
-                  </div>
-                </div>
-                  <div class="col-auto ms-auto">
-                    <button type="button" class="btn btn-outline-secondary" id="add-comparable">
-                      Add a comparable
-                    </button>
-                  </div>
-                  <% if @feature.expression %>
-                    <div class="col-auto">
-                      <form action="<%= script_name %>/features/<%= Flipper::UI::Util.escape @feature.key %>/expression" method="post">
-                        <%== csrf_input_tag %>
-                        <input type="hidden" name="operation" value="disable">
-                        <button type="submit" class="btn btn-outline-danger" data-bs-toggle="tooltip" title="Disable expression" data-bs-placement="left">
-                          Remove
-                        </button>
-                      </form>
-                    </div>
-                  <% end %>
-              </div>
-
-              <form action="<%= script_name %>/features/<%= Flipper::UI::Util.escape @feature.key %>/expression" method="post" class="col" id="expression-form">
-                <%== csrf_input_tag %>
-                <input type="hidden" name="operation" value="enable">
-                <div id="expression"></div>
-
-                <script id="expression-value" type="application/json">
-                  <%== @feature.expression_value.to_json %>
-                </script>
-
-                <div class="row">
-                  <div class="col-auto ms-auto">
-                    <input type="submit" value="Save" form="expression-form" class="btn btn-primary">
-                  </div>
-                </div>
-              </form>
-
-              <template id="expression-row-template">
-                <div class="row">
-                  <div class="col-md-4 mb-3">
-                    <select name="property" class="form-select" required>
-                      <option value="">Select a property...</option>
-                      <% Flipper::UI.expression_properties.each do |property| %>
-                        <option value="<%= property %>"><%= property %></option>
-                      <% end %>
-                    </select>
-                  </div>
-                  <div class="col-md-3 mb-3">
-                    <select name="function" class="form-select" required>
-                      <option value="">Select an operator...</option>
-                      <% Flipper::Expressions::Comparable.subclasses.each do |klass| %>
-                        <option value="<%= Flipper::UI::Util.demodulize klass.name %>"><%= klass.operator %></option>
-                      <% end %>
-                    </select>
-                  </div>
-                  <div class="col-md-3 mb-3">
-                    <input type="text" name="constant" placeholder="value" class="form-control" required>
-                  </div>
-                  <div class="col-auto ms-auto mb-3">
-                    <button type="button" class="btn btn-outline-danger remove-expression-btn">Remove</button>
-                  </div>
-                </div>
-              </template>
+              <%# TODO: Fill in with expression tree %>
             </div>
           <% end %>
         </div>

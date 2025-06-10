@@ -1,7 +1,6 @@
 require 'flipper/ui/action'
 require 'flipper/ui/decorators/feature'
 require 'flipper/ui/util'
-require 'flipper/ui/expression_serializer'
 
 module Flipper
   module UI
@@ -18,7 +17,7 @@ module Flipper
 
           case params['operation']
           when 'enable'
-            expression = Flipper::Expression.build(ExpressionSerializer.deserialize(params))
+            expression = Flipper::Expression.build(params["expression"] || {})
             feature.enable_expression expression
           when 'disable'
             feature.disable_expression
@@ -26,8 +25,6 @@ module Flipper
 
           redirect_to("/features/#{Flipper::UI::Util.escape feature.key}")
         end
-
-        private
       end
     end
   end

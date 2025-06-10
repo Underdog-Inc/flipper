@@ -70,8 +70,6 @@ module Flipper
   end
 end
 
-require "flipper/expressions/quantifier"
-
 Dir[File.join(File.dirname(__FILE__), 'expressions', '*.rb')].sort.each do |file|
   require "flipper/expressions/#{File.basename(file, '.rb')}"
 end

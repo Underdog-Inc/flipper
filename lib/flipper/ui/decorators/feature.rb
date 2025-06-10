@@ -92,11 +92,6 @@ module Flipper
             StateSortMap[state] <=> StateSortMap[other.state]
           end
         end
-
-        # Public: Get complete form initialization data for JavaScript.
-        def expression_form_data
-          ExpressionSerializer.serialize(expression)
-        end
       end
     end
   end
