@@ -18,6 +18,14 @@ module Flipper
         str.to_s !~ NON_WHITESPACE_REGEXP
       end
 
+      def self.demodulize(str)
+        if i = str.rindex("::")
+          str[(i + 2), str.length]
+        else
+          str
+        end
+      end
+
       def self.present?(str)
         !blank?(str)
       end

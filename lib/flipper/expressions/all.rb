@@ -1,6 +1,6 @@
 module Flipper
   module Expressions
-    class All
+    class All < Quantifier
       def self.call(*args)
         args.all?
       end

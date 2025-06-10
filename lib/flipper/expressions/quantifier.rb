@@ -1,13 +1,12 @@
 module Flipper
   module Expressions
-    class Any < Quantifier
+    class Quantifier
       def self.call(*args)
-        args.any?
+        raise NotImplementedError
       end
 
       def self.in_words(*args)
-        count = args.length
-        "any #{count} condition#{'s' if count != 1}"
+        raise NotImplementedError
       end
     end
   end
