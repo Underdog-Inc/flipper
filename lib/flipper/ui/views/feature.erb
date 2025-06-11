@@ -270,7 +270,34 @@
 
           <% if write_allowed? %>
             <div class="card-body border-bottom toggle-block-when-on bg-lightest">
-              <%# TODO: Fill in with expression tree %>
+              <form action="<%= script_name %>/features/<%= Flipper::UI::Util.escape @feature.key %>/expression" method="post" id="expression" class="row">
+                <%== csrf_input_tag %>
+                <input type="hidden" name="operation" value="enable">
+                <% if @feature.expression %>
+                  <%== partial(@feature.expression.name.downcase, { expression: @feature.expression }) %>
+                <% else %>
+                  <div class="mb-3">
+                    <label for="expression" class="form-label visually-hidden">Expression</label>
+                    <textarea name="expression" id="expression" class="form-control" rows="4" placeholder="Enter an expression..."></textarea>
+                  </div>
+                <% end %>
+              </form>
+              <div class="row">
+                <% if @feature.expression %>
+                  <form action="<%= script_name %>/features/<%= Flipper::UI::Util.escape @feature.key %>/expression" method="post" class="col-auto">
+                    <%== csrf_input_tag %>
+                    <input type="hidden" name="operation" value="disable">
+                    <button type="submit" class="btn btn-outline-danger" data-bs-toggle="tooltip" title="Disable expression" data-bs-placement="left">
+                      Remove
+                    </button>
+                  </form>
+                <% end %>
+                <div class="col-auto">
+                  <button type="submit" form="expression" class="btn btn-primary">
+                    Save
+                  </button>
+                </div>
+              </div>
             </div>
           <% end %>
         </div>

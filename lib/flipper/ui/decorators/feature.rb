@@ -1,7 +1,6 @@
 require 'delegate'
 require 'flipper/ui/decorators/gate'
 require 'flipper/ui/util'
-require 'flipper/ui/expression_serializer'
 
 module Flipper
   module UI
