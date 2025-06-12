@@ -331,7 +331,7 @@
                         <% end %>
                       </select>
                     </div>
-                    <div class="col-md-3 mb-3">
+                    <div class="col-md-4 mb-3">
                       <select name="operator_class" class="form-select">
                         <option value="">Select an operator...</option>
                         <option value="Equal" <%= "selected" if @feature.expression_form_data[:operator] == "Equal" %>>equals (=)</option>
@@ -342,7 +342,7 @@
                         <option value="LessThanOrEqualTo" <%= "selected" if @feature.expression_form_data[:operator] == "LessThanOrEqualTo" %>>less than or equal (<=)</option>
                       </select>
                     </div>
-                    <div class="col-md-3 mb-3">
+                    <div class="col-md-2 mb-3">
                       <input type="text" name="value" placeholder="value" class="form-control" value="<%= @feature.expression_form_data[:value] %>">
                     </div>
                     <div class="col-auto ms-auto mb-3">
@@ -387,7 +387,7 @@
                       <% end %>
                     </select>
                   </div>
-                  <div class="col-md-3 mb-3">
+                  <div class="col-md-4 mb-3">
                     <select name="complex_expressions[COUNTER][operator_class]" class="form-select" required>
                       <option value="">Select an operator...</option>
                       <option value="Equal">equals (=)</option>
@@ -398,7 +398,7 @@
                       <option value="LessThanOrEqualTo">less than or equal (<=)</option>
                     </select>
                   </div>
-                  <div class="col-md-3 mb-3">
+                  <div class="col-md-2 mb-3">
                     <input type="text" name="complex_expressions[COUNTER][value]" placeholder="value" class="form-control" required>
                   </div>
                   <div class="col-auto ms-auto mb-3">
