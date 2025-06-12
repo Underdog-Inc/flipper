@@ -326,8 +326,8 @@
                         <% Flipper::UI.expression_properties.each do |property, config| %>
                           <option value="<%= property %>" <%= "selected" if @feature.expression_form_data[:property] == property.to_s %>><%= property %></option>
                         <% end %>
-                        <% if @feature.expression_form_data[:property] && !Flipper::UI.expression_properties.has_key?(@feature.expression_form_data[:property].to_sym) %>
-                          <option value="<%= @feature.expression_form_data[:property] %>" selected><%= @feature.expression_form_data[:property] %> (no longer available)</option>
+                        <% if @feature.expression_form_data[:property] && !Flipper::UI.expression_properties.has_key?(@feature.expression_form_data[:property].to_s) && !Flipper::UI.expression_properties.has_key?(@feature.expression_form_data[:property].to_sym) %>
+                          <option value="<%= @feature.expression_form_data[:property] %>" selected disabled><%= @feature.expression_form_data[:property] %> (no longer available)</option>
                         <% end %>
                       </select>
                     </div>
