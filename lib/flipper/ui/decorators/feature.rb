@@ -91,6 +91,18 @@ module Flipper
             StateSortMap[state] <=> StateSortMap[other.state]
           end
         end
+
+        # Public: Return existing expression or build a default equal one.
+        def expression_or_default
+          return expression if expression
+
+          Flipper::Expression.build({
+            'Equal' => [
+              { 'Property' => [''] },
+              ''
+            ]
+          })
+        end
       end
     end
   end
