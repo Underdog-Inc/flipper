@@ -1,9 +1,9 @@
-<div class="row align-items-center">
+<div class="row align-items-center" data-expression-form>
   <div class="col">
     <%== partial(expression.args[0].name.downcase, { expression: expression.args[0] }) %>
   </div>
   <div class="col-auto">
-    <select name="expression[operator]" class="form-select">
+    <select name="expression[operator]" class="form-select" data-expression-operator>
       <option value="Equal" <%= 'selected' if expression.name == 'Equal' %>>=</option>
       <option value="NotEqual" <%= 'selected' if expression.name == 'NotEqual' %>>!=</option>
       <option value="GreaterThan" <%= 'selected' if expression.name == 'GreaterThan' %>>></option>
