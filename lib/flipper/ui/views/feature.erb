@@ -273,14 +273,7 @@
               <form action="<%= script_name %>/features/<%= Flipper::UI::Util.escape @feature.key %>/expression" method="post" id="expression" class="row">
                 <%== csrf_input_tag %>
                 <input type="hidden" name="operation" value="enable">
-                <% if @feature.expression %>
-                  <%== partial(@feature.expression.name.downcase, { expression: @feature.expression }) %>
-                <% else %>
-                  <div class="mb-3">
-                    <label for="expression" class="form-label visually-hidden">Expression</label>
-                    <textarea name="expression" id="expression" class="form-control" rows="4" placeholder="Enter an expression..."></textarea>
-                  </div>
-                <% end %>
+                <%== partial(:expression_form, { expression: @feature.expression }) %>
               </form>
               <div class="row">
                 <% if @feature.expression %>

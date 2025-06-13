@@ -1,0 +1,26 @@
+<%
+  operators = [
+    ['Equal', '='],
+    ['NotEqual', '!='],
+    ['GreaterThan', '>'],
+    ['GreaterThanOrEqualTo', '>='],
+    ['LessThan', '<'],
+    ['LessThanOrEqualTo', '<=']
+  ]
+%>
+
+<div class="row align-items-center" data-expression-form>
+  <div class="col">
+    <input type="text" name="expression[<%= expression ? expression.name : 'Equal' %>][][Property][]" value="<%= expression ? expression.args[0].args[0].value : '' %>" class="form-control" placeholder="Enter property..." data-expression-property>
+  </div>
+  <div class="col-auto">
+    <select name="expression[operator]" class="form-select" data-expression-operator>
+      <% operators.each do |operator, symbol| %>
+        <option value="<%= operator %>" <%= 'selected' if expression && expression.name == operator %>><%= symbol %></option>
+      <% end %>
+    </select>
+  </div>
+  <div class="col">
+    <input type="text" name="expression[<%= expression ? expression.name : 'Equal' %>][]" value="<%= expression ? expression.args[1].value : '' %>" class="form-control" placeholder="Enter value..." data-expression-value>
+  </div>
+</div>
