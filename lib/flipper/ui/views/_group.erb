@@ -1,17 +1,13 @@
-<div class="mb-3">
-  <div class="row align-items-center">
-    <div class="col-auto">
-      <select name="expression[operator]" class="form-select">
-        <option value="Any" <%= 'selected' if expression.name == 'Any' %>>Any</option>
-        <option value="All" <%= 'selected' if expression.name == 'All' %>>All</option>
-      </select>
-    </div>
+<div class="row align-items-center mb-3">
+  <div class="col-auto">
+    <select name="expression[operator]" class="form-select">
+      <option value="Any" <%= 'selected' if expression.name == 'Any' %>>Any</option>
+      <option value="All" <%= 'selected' if expression.name == 'All' %>>All</option>
+    </select>
   </div>
 </div>
 <div class="ms-2">
   <% expression.args.each_with_index do |arg, index| %>
-    <div class="mb-3">
-      <%== partial(arg.name.downcase, { expression: arg }) %>
-    </div>
+    <%== partial(arg.name.downcase, { expression: arg }) %>
   <% end %>
 </div>

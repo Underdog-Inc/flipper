@@ -1,6 +1,5 @@
 require 'flipper/ui/configuration/option'
 
-
 module Flipper
   module UI
     class Configuration
