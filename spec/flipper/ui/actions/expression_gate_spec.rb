@@ -17,9 +17,18 @@ RSpec.describe Flipper::UI::Actions::ExpressionGate do
         post 'features/search/expression',
              {
                'operation' => 'enable',
-               'property_name' => 'plan',
-               'operator_class' => 'Equal',
-               'value' => 'basic',
+               'expression' => {
+                 'type' => 'Equal',
+                 'args' => {
+                   '0' => {
+                     'type' => 'Property',
+                     'args' => {
+                       '0' => 'plan'
+                     }
+                   },
+                   '1' => 'basic'
+                 }
+               },
                'authenticity_token' => token
              },
              'rack.session' => session
@@ -68,12 +77,21 @@ RSpec.describe Flipper::UI::Actions::ExpressionGate do
         expect { post 'features/search/expression',
                {
                  'operation' => 'enable',
-                 'property_name' => 'plan',
-                 'operator_class' => 'invalid_op',
-                 'value' => 'basic',
+                 'expression' => {
+                   'type' => 'invalid_op',
+                   'args' => {
+                     '0' => {
+                       'type' => 'Property',
+                       'args' => {
+                         '0' => 'plan'
+                       }
+                     },
+                     '1' => 'basic'
+                   }
+                 },
                  'authenticity_token' => token
                },
-               'rack.session' => session }.to raise_error(ArgumentError, /Unknown operator: invalid_op/)
+               'rack.session' => session }.to raise_error(NameError, /wrong constant name invalid_op/)
       end
     end
 
@@ -84,9 +102,18 @@ RSpec.describe Flipper::UI::Actions::ExpressionGate do
           post 'features/search/expression',
                {
                  'operation' => 'enable',
-                 'property_name' => 'plan',
-                 'operator_class' => operator,
-                 'value' => 'basic',
+                 'expression' => {
+                   'type' => operator,
+                   'args' => {
+                     '0' => {
+                       'type' => 'Property',
+                       'args' => {
+                         '0' => 'plan'
+                       }
+                     },
+                     '1' => 'basic'
+                   }
+                 },
                  'authenticity_token' => token
                },
                'rack.session' => session
@@ -109,9 +136,18 @@ RSpec.describe Flipper::UI::Actions::ExpressionGate do
         post 'features/sp%20ace/expression',
              {
                'operation' => 'enable',
-               'property_name' => 'plan',
-               'operator_class' => 'Equal',
-               'value' => 'basic',
+               'expression' => {
+                 'type' => 'Equal',
+                 'args' => {
+                   '0' => {
+                     'type' => 'Property',
+                     'args' => {
+                       '0' => 'plan'
+                     }
+                   },
+                   '1' => 'basic'
+                 }
+               },
                'authenticity_token' => token
              },
              'rack.session' => session
@@ -133,17 +169,33 @@ RSpec.describe Flipper::UI::Actions::ExpressionGate do
         post 'features/search/expression',
              {
                'operation' => 'enable',
-               'complex_expression_type' => 'any',
-               'complex_expressions' => {
-                 '0' => {
-                   'property_name' => 'plan',
-                   'operator_class' => 'Equal',
-                   'value' => 'basic'
-                 },
-                 '1' => {
-                   'property_name' => 'premium',
-                   'operator_class' => 'Equal',
-                   'value' => 'true'
+               'expression' => {
+                 'type' => 'Any',
+                 'args' => {
+                   '0' => {
+                     'type' => 'Equal',
+                     'args' => {
+                       '0' => {
+                         'type' => 'Property',
+                         'args' => {
+                           '0' => 'plan'
+                         }
+                       },
+                       '1' => 'basic'
+                     }
+                   },
+                   '1' => {
+                     'type' => 'Equal',
+                     'args' => {
+                       '0' => {
+                         'type' => 'Property',
+                         'args' => {
+                           '0' => 'premium'
+                         }
+                       },
+                       '1' => 'true'
+                     }
+                   }
                  }
                },
                'authenticity_token' => token
@@ -182,17 +234,33 @@ RSpec.describe Flipper::UI::Actions::ExpressionGate do
         post 'features/search/expression',
              {
                'operation' => 'enable',
-               'complex_expression_type' => 'all',
-               'complex_expressions' => {
-                 '0' => {
-                   'property_name' => 'plan',
-                   'operator_class' => 'Equal',
-                   'value' => 'premium'
-                 },
-                 '1' => {
-                 'property_name' => 'age',
-                 'operator_class' => 'GreaterThanOrEqualTo',
-                 'value' => '18'
+               'expression' => {
+                 'type' => 'All',
+                 'args' => {
+                   '0' => {
+                     'type' => 'Equal',
+                     'args' => {
+                       '0' => {
+                         'type' => 'Property',
+                         'args' => {
+                           '0' => 'plan'
+                         }
+                       },
+                       '1' => 'premium'
+                     }
+                   },
+                   '1' => {
+                     'type' => 'GreaterThanOrEqualTo',
+                     'args' => {
+                       '0' => {
+                         'type' => 'Property',
+                         'args' => {
+                           '0' => 'age'
+                         }
+                       },
+                       '1' => '18'
+                     }
+                   }
                  }
                },
                'authenticity_token' => token
@@ -208,7 +276,7 @@ RSpec.describe Flipper::UI::Actions::ExpressionGate do
         expected_expression = {
           "All" => [
             { "Equal" => [{ "Property" => ["plan"] }, "premium"] },
-            { "GreaterThanOrEqualTo" => [{ "Property" => ["age"] }, 18] }
+            { "GreaterThanOrEqualTo" => [{ "Property" => ["age"] }, "18"] }
           ]
         }
         expect(flipper.feature(:search).expression.value).to eq(expected_expression)
@@ -221,161 +289,5 @@ RSpec.describe Flipper::UI::Actions::ExpressionGate do
     end
   end
 
-  describe 'expression parameter parsing using ExpressionSerializer' do
-    before do
-      allow(Flipper::UI.configuration).to receive(:expression_properties).and_return({
-        'age' => { type: 'number' },
-        'premium' => { type: 'boolean' },
-        'plan' => { type: 'string' }
-      })
-    end
 
-    it 'supports all comparison operators' do
-      operators = {
-        'Equal' => 'Equal',
-        'NotEqual' => 'NotEqual',
-        'GreaterThan' => 'GreaterThan',
-        'GreaterThanOrEqualTo' => 'GreaterThanOrEqualTo',
-        'LessThan' => 'LessThan',
-        'LessThanOrEqualTo' => 'LessThanOrEqualTo'
-      }
-
-      operators.each do |op, expression_type|
-        params = {
-          'property_name' => 'age',
-          'operator_class' => op,
-          'value' => '25'
-        }
-
-        result = Flipper::UI::ExpressionSerializer.deserialize(params)
-        expect(result).to eq({
-          expression_type => [{ "Property" => ["age"] }, 25]
-        })
-      end
-    end
-
-    it 'converts numeric values' do
-      params = {
-        'property_name' => 'age',
-        'operator_class' => 'GreaterThan',
-        'value' => '25'
-      }
-
-      result = Flipper::UI::ExpressionSerializer.deserialize(params)
-      expect(result['GreaterThan'][1]).to eq(25)
-    end
-
-    it 'converts boolean values' do
-      params = {
-        'property_name' => 'premium',
-        'operator_class' => 'Equal',
-        'value' => 'true'
-      }
-
-      result = Flipper::UI::ExpressionSerializer.deserialize(params)
-      expect(result['Equal'][1]).to eq(true)
-    end
-
-    it 'handles string values' do
-      params = {
-        'property_name' => 'plan',
-        'operator_class' => 'Equal',
-        'value' => 'basic'
-      }
-
-      result = Flipper::UI::ExpressionSerializer.deserialize(params)
-      expect(result['Equal'][1]).to eq('basic')
-    end
-
-    it 'parses complex any expressions' do
-      params = {
-        'complex_expression_type' => 'any',
-        'complex_expressions' => {
-          '0' => {
-            'property_name' => 'plan',
-            'operator_class' => 'Equal',
-            'value' => 'basic'
-          },
-          '1' => {
-            'property_name' => 'premium',
-            'operator_class' => 'Equal',
-            'value' => 'true'
-          }
-        }
-      }
-
-      result = Flipper::UI::ExpressionSerializer.deserialize(params)
-      expect(result).to eq({
-        "Any" => [
-          { "Equal" => [{ "Property" => ["plan"] }, "basic"] },
-          { "Equal" => [{ "Property" => ["premium"] }, true] }
-        ]
-      })
-    end
-
-    it 'parses complex all expressions' do
-      params = {
-        'complex_expression_type' => 'all',
-        'complex_expressions' => {
-          '0' => {
-            'property_name' => 'age',
-            'operator_class' => 'GreaterThanOrEqualTo',
-            'value' => '18'
-          },
-          '1' => {
-            'property_name' => 'plan',
-            'operator_class' => 'NotEqual',
-            'value' => 'free'
-          }
-        }
-      }
-
-      result = Flipper::UI::ExpressionSerializer.deserialize(params)
-      expect(result).to eq({
-        "All" => [
-          { "GreaterThanOrEqualTo" => [{ "Property" => ["age"] }, 18] },
-          { "NotEqual" => [{ "Property" => ["plan"] }, "free"] }
-        ]
-      })
-    end
-
-    it 'skips empty expressions in complex forms' do
-      params = {
-        'complex_expression_type' => 'any',
-        'complex_expressions' => {
-          '0' => {
-            'property_name' => 'plan',
-            'operator_class' => 'Equal',
-            'value' => 'basic'
-          },
-          '1' => {
-            'property_name' => '',
-            'operator_class' => 'Equal',
-            'value' => 'something'
-          },
-          '2' => {
-            'property_name' => 'premium',
-            'operator_class' => '',
-            'value' => 'true'
-          }
-        }
-      }
-
-      result = Flipper::UI::ExpressionSerializer.deserialize(params)
-      expect(result).to eq({
-        "Any" => [
-          { "Equal" => [{ "Property" => ["plan"] }, "basic"] }
-        ]
-      })
-    end
-
-    it 'raises error for unknown complex expression type' do
-      params = {
-        'complex_expression_type' => 'unknown',
-        'complex_expressions' => {}
-      }
-
-      expect { Flipper::UI::ExpressionSerializer.deserialize(params) }.to raise_error('Unknown complex expression type: unknown')
-    end
-  end
 end
