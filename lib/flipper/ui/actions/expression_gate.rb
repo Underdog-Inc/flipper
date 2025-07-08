@@ -1,6 +1,7 @@
 require 'flipper/ui/action'
 require 'flipper/ui/decorators/feature'
 require 'flipper/ui/util'
+require 'flipper/ui/expression_parser'
 
 module Flipper
   module UI
@@ -17,7 +18,8 @@ module Flipper
 
           case params['operation']
           when 'enable'
-            expression = Flipper::Expression.build(params["expression"] || {})
+            parsed_expression = Flipper::UI::ExpressionParser.new(params["expression"]).parse
+            expression = Flipper::Expression.build(parsed_expression)
             feature.enable_expression expression
           when 'disable'
             feature.disable_expression

@@ -274,7 +274,7 @@
                 <%== csrf_input_tag %>
                 <input type="hidden" name="operation" value="enable">
                 <% if @feature.expression %>
-                  <%== partial(@feature.expression.name.downcase, { expression: @feature.expression }) %>
+                  <%== partial(@feature.expression.name.downcase, {  expression: @feature.expression,  base_name: "expression" }) %>
                 <% else %>
                   <div class="mb-3">
                     <label for="expression" class="form-label visually-hidden">Expression</label>
