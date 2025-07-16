@@ -1,18 +1,26 @@
 <div class="row align-items-center mb-3">
   <div class="col">
-    <%== partial(expression.args[0].name.downcase, { expression: expression.args[0], base_name: "#{base_name}[args][0]" }) %>
+    <% if expression %>
+      <%== partial(expression.args[0].name.downcase, { expression: expression.args[0], base_name: "#{base_name}[args][0]" }) %>
+    <% else %>
+      <%== partial(:property, { expression: nil, base_name: "#{base_name}[args][0]" }) %>
+    <% end %>
   </div>
   <div class="col-auto">
     <select class="form-select" name="<%= "#{base_name}[type]" %>">
-      <option value="Equal" <%= 'selected' if expression.name == 'Equal' %>>=</option>
-      <option value="NotEqual" <%= 'selected' if expression.name == 'NotEqual' %>>!=</option>
-      <option value="GreaterThan" <%= 'selected' if expression.name == 'GreaterThan' %>>></option>
-      <option value="GreaterThanOrEqualTo" <%= 'selected' if expression.name == 'GreaterThanOrEqualTo' %>>>=</option>
-      <option value="LessThan" <%= 'selected' if expression.name == 'LessThan' %>><</option>
-      <option value="LessThanOrEqualTo" <%= 'selected' if expression.name == 'LessThanOrEqualTo' %>><=</option>
+      <option value="Equal" <%= 'selected' if expression && expression.name == 'Equal' %>>=</option>
+      <option value="NotEqual" <%= 'selected' if expression && expression.name == 'NotEqual' %>>!=</option>
+      <option value="GreaterThan" <%= 'selected' if expression && expression.name == 'GreaterThan' %>>></option>
+      <option value="GreaterThanOrEqualTo" <%= 'selected' if expression && expression.name == 'GreaterThanOrEqualTo' %>>>=</option>
+      <option value="LessThan" <%= 'selected' if expression && expression.name == 'LessThan' %>><</option>
+      <option value="LessThanOrEqualTo" <%= 'selected' if expression && expression.name == 'LessThanOrEqualTo' %>><=</option>
     </select>
   </div>
   <div class="col">
-    <%== partial(expression.args[1].name.downcase, { expression: expression.args[1], base_name: "#{base_name}[args][1]" }) %>
+    <% if expression %>
+      <%== partial(expression.args[1].name.downcase, { expression: expression.args[1], base_name: "#{base_name}[args][1]" }) %>
+    <% else %>
+      <%== partial(:constant, { expression: nil, base_name: "#{base_name}[args][1]" }) %>
+    <% end %>
   </div>
 </div>
