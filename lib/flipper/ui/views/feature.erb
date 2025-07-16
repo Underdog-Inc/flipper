@@ -273,7 +273,7 @@
               <form action="<%= script_name %>/features/<%= Flipper::UI::Util.escape @feature.key %>/expression" method="post" id="expression" class="row">
                 <%== csrf_input_tag %>
                 <input type="hidden" name="operation" value="enable">
-                <%== partial(@feature.expression ? @feature.expression.name.downcase : :comparable, {  expression: @feature.expression,  base_name: "expression" }) %>
+                <%== partial(@feature.expression ? @feature.expression.name.downcase : :comparable, {  expression: @expression,  base_name: "expression" }) %>
               </form>
               <div class="row">
                 <% if @feature.expression %>

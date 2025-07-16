@@ -1,10 +1,8 @@
 <input type="hidden" name="<%= base_name %>[type]" value="Property" />
 <select name="<%= base_name %>[args][0]" class="form-select">
-  <% if expression %>
-    <option value="<%= expression.args[0].value %>" selected><%= expression.args[0].value %></option>
-  <% end %>
+  <option value="<%= expression.args[0].value %>" selected><%= expression.args[0].value %></option>
   <% @expression_properties.keys.each do |property| %>
-    <% unless expression && property == expression.args[0].value %>
+    <% unless property == expression.args[0].value %>
       <option value="<%= property %>"><%= property %></option>
     <% end %>
   <% end %>
