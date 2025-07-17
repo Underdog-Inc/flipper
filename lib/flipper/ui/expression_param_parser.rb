@@ -2,13 +2,21 @@ module Flipper
   module UI
     # Internal: Used to parse expressions from the UI into a format that can be
     # used by Flipper::Expression.build
-    class ExpressionParser
+    class ExpressionParamParser
+      class InvalidJSONError < StandardError ;end
+
       def initialize(expression)
         @expression = expression
       end
 
       def parse
         return {} unless @expression
+
+        begin
+          return JSON.parse(@expression) if @expression.is_a?(String)
+        rescue JSON::ParserError
+          raise InvalidJSONError
+        end
 
         convert(@expression)
       end

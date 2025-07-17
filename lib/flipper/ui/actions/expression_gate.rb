@@ -1,7 +1,7 @@
 require 'flipper/ui/action'
 require 'flipper/ui/decorators/feature'
 require 'flipper/ui/util'
-require 'flipper/ui/expression_parser'
+require 'flipper/ui/expression_param_parser'
 
 module Flipper
   module UI
@@ -13,12 +13,18 @@ module Flipper
 
         def post
           render_read_only if read_only?
+          halt view_response(:expressions_disabled) unless Flipper::UI.configuration.expressions_enabled
 
           feature = flipper[feature_name]
 
           case params['operation']
           when 'enable'
-            parsed_expression = Flipper::UI::ExpressionParser.new(params["expression"]).parse
+            begin
+              parsed_expression = Flipper::UI::ExpressionParamParser.new(params["expression"]).parse
+            rescue Flipper::UI::ExpressionParamParser::InvalidJSONError
+              error = "Expression JSON is not valid."
+              redirect_to("/features/#{Flipper::UI::Util.escape feature.key}?error=#{Flipper::UI::Util.escape error}")
+            end
             expression = Flipper::Expression.build(parsed_expression)
             feature.enable_expression expression
           when 'disable'

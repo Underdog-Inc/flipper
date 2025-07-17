@@ -82,6 +82,9 @@ module Flipper
       # Used for UI dropdowns and type conversion. Default is empty hash.
       attr_accessor :expression_properties
 
+      # Public: Are expressions viewable and editable in the UI or not. Default is false.
+      attr_accessor :expressions_enabled
+
       VALID_BANNER_CLASS_VALUES = %w(
         danger
         dark
@@ -113,6 +116,7 @@ module Flipper
         @confirm_disable = true
         @read_only = false
         @expression_properties = {}
+        @expressions_enabled = false
         @nav_items = [
           { title: "Features", href: "features" },
           { title: "Settings", href: "settings" },

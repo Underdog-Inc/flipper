@@ -18,7 +18,6 @@ module Flipper
           @page_title = "#{@feature.key} // Features"
           @percentages = [0, 1, 5, 10, 25, 50, 100]
           @expression_properties = Flipper::UI.configuration.expression_properties
-          @expression = @feature.expression || Flipper::Expression.build({ Equal: [{ Property: "" }, ""] })
 
           view_response :feature
         end

@@ -55,6 +55,8 @@ Flipper::UI.configure do |config|
     "product" => { "type" => "string" },
     "identified" => { "type" => "boolean" }
   }
+
+  config.expressions_enabled = true
 end
 
 # You can uncomment these to get some default data:

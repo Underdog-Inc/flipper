@@ -56,7 +56,7 @@ module Flipper
             statuses << "#{feature.percentage_of_time_value}% of time"
           end
 
-          if feature.expression
+          if feature.expression && Flipper::UI.configuration.expressions_enabled
             statuses << "actors where #{feature.expression.in_words}"
           end
 
