@@ -25,6 +25,7 @@ module Flipper
       end
 
       def self.in_words(*args)
+        return "#{args.first.in_words} seconds" if args.size == 1
         args.map(&:in_words).join(' ')
       end
     end

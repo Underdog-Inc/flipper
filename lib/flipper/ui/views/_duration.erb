@@ -6,7 +6,7 @@
   <div class="col">
     <select name="<%= base_name %>[args][1]" class="form-control">
       <% Flipper::Expressions::Duration::SECONDS_PER.keys.each do |unit| %>
-        <option value="<%= unit %>" <%= unit == expression.args[0].value ? 'selected' : '' %>><%= unit %></option>
+        <option value="<%= unit %>" <%= unit == expression.args[1].value.to_s.downcase.chomp("s") ? 'selected' : '' %>><%= unit %></option>
       <% end %>
     </select>
   </div>
