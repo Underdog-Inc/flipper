@@ -6,7 +6,7 @@ module Flipper
       end
 
       def self.operator_in_words
-        "not equal to"
+      'not equal to'
       end
     end
   end

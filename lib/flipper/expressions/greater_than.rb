@@ -6,7 +6,7 @@ module Flipper
       end
 
       def self.operator_in_words
-        "greater than"
+        'greater than'
       end
     end
   end

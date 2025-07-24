@@ -6,7 +6,7 @@ module Flipper
       end
 
       def self.operator_in_words
-        "equal to"
+        'equal to'
       end
     end
   end

@@ -248,18 +248,18 @@
 
         <% if Flipper::UI.configuration.expressions_enabled %>
           <%# Expression %>
-          <div class="js-toggle-container <%= params["expression_format"] ? "toggle-on" : "" %>">
+          <div class="js-toggle-container <%= params['expression_format'] ? 'toggle-on' : '' %>">
             <div class="card-body border-bottom">
               <div class="row align-items-center">
                 <div class="col col-me-auto">
                   <h6 class="m-0">
-                    <strong class="<%= "text-muted" unless @feature.expression %>"><% if @feature.expression %>Enabled for actors where <%= @feature.expression.in_words %><% else %>No expression enabled<% end %></strong>
+                    <strong class="<%= 'text-muted' unless @feature.expression %>"><% if @feature.expression %>Enabled for actors where <%= @feature.expression.in_words %><% else %>No expression enabled<% end %></strong>
                   </h6>
                 </div>
                 <% if write_allowed? %>
                   <div class="col col-auto toggle-block-when-off">
                     <button class="btn btn-outline-secondary js-toggle-trigger">
-                      <%= @feature.expression ? "Edit" : "Add an expression" %>
+                      <%= @feature.expression ? 'Edit' : 'Add an expression' %>
                     </button>
                   </div>
                   <div class="col col-auto toggle-block-when-on">
@@ -277,14 +277,14 @@
                   <% if @feature.expression %>
                     <ul class="nav nav-pills mb-3">
                       <li class="nav-item">
-                        <a class="nav-link <%= params["expression_format"] != "json" ? "active" : "" %>" aria-current="page" href="?expression_format=edit">Edit</a>
+                        <a class="nav-link <%= params['expression_format'] != 'json' ? 'active' : '' %>" aria-current="page" href="?expression_format=edit">Edit</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link <%= params["expression_format"] == "json" ? "active" : "" %>" aria-current="page" href="?expression_format=json">JSON</a>
+                        <a class="nav-link <%= params['expression_format'] == 'json' ? 'active' : '' %>" aria-current="page" href="?expression_format=json">JSON</a>
                       </li>
                     </ul>
-                    <% if params["expression_format"] != "json" %>
-                      <%== partial(@feature.expression.name.downcase, {  expression: @feature.expression,  base_name: "expression" }) %>
+                    <% if params['expression_format'] != 'json' %>
+                      <%== partial(@feature.expression.name.downcase, {  expression: @feature.expression,  base_name: 'expression' }) %>
                     <% else %>
                       <div class="mb-3">
                         <label for="expression" class="form-label visually-hidden">Expression</label>

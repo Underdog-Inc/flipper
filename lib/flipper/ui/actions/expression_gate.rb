@@ -22,14 +22,14 @@ module Flipper
             begin
               parsed_expression = Flipper::UI::ExpressionParamParser.new(params["expression"]).parse
             rescue Flipper::UI::ExpressionParamParser::InvalidJSONError
-              error = "Expression JSON is not valid."
+              error = 'Expression JSON is not valid.'
               redirect_to("/features/#{Flipper::UI::Util.escape feature.key}?error=#{Flipper::UI::Util.escape error}")
             end
 
             begin
               expression = Flipper::Expression.build(parsed_expression)
             rescue NameError, ArgumentError
-              error = "Expression is not valid."
+              error = 'Expression is not valid.'
               redirect_to("/features/#{Flipper::UI::Util.escape feature.key}?error=#{Flipper::UI::Util.escape error}")
             end
 
