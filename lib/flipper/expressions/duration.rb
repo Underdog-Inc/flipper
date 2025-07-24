@@ -23,6 +23,10 @@ module Flipper
 
         scalar * SECONDS_PER[unit]
       end
+
+      def self.in_words(*args)
+        args.map(&:in_words).join(' ')
+      end
     end
   end
 end
