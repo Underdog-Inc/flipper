@@ -17,7 +17,7 @@ module Flipper
         end
 
         new(name, Array(args).map { |o| build(o) })
-      when String, Numeric, FalseClass, TrueClass
+      when String, Numeric, FalseClass, TrueClass, Array
         Expression::Constant.new(object)
       when Symbol
         Expression::Constant.new(object.to_s)
