@@ -16,7 +16,9 @@ module Flipper
 
       # Properties used to evaluate expressions
       def flipper_properties
-        {"type" => self.class.name}.merge(attributes)
+        props = {"type" => self.class.name}.merge(attributes)
+        props["kind"] = kind if respond_to?(:kind)
+        props
       end
     end
   end

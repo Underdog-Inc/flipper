@@ -5,7 +5,9 @@ module Flipper
 
       # Properties used to evaluate expressions
       def flipper_properties
-        {"type" => self.class.name}.update(to_hash.transform_keys(&:to_s))
+        props = {"type" => self.class.name}.update(to_hash.transform_keys(&:to_s))
+        props["kind"] = kind if respond_to?(:kind)
+        props
       end
     end
   end

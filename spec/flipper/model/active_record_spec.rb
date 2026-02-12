@@ -36,6 +36,15 @@ RSpec.describe Flipper::Model::ActiveRecord do
   class Admin < User
   end
 
+  class UserWithKind < ActiveRecord::Base
+    self.table_name = 'users'
+    include Flipper::Model::ActiveRecord
+
+    def kind
+      "admin"
+    end
+  end
+
   it "doesn't warn for to_ary" do
     # looks like we should remove this but you are wrong, we have specs that
     # fail if there are warnings and if this regresses it will print a warning
@@ -67,6 +76,15 @@ RSpec.describe Flipper::Model::ActiveRecord do
         "created_at" => subject.created_at,
         "updated_at" => subject.updated_at
       })
+    end
+
+    it "includes kind when model responds to kind" do
+      user_with_kind = UserWithKind.create!(name: "Test", age: 22, is_confirmed: true)
+      expect(user_with_kind.flipper_properties["kind"]).to eq("admin")
+    end
+
+    it "does not include kind when model does not respond to kind" do
+      expect(subject.flipper_properties).not_to have_key("kind")
     end
   end
 end

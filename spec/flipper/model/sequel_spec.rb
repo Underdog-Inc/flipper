@@ -42,5 +42,27 @@ RSpec.describe Flipper::Model::Sequel do
         "updated_at" => subject.updated_at
       })
     end
+
+    it "includes kind when model responds to kind" do
+      user_with_kind_class = Class.new(::Sequel::Model(:users)) do
+        include Flipper::Model::Sequel
+        plugin :timestamps, update_on_create: true
+
+        def self.name
+          'UserWithKind'
+        end
+
+        def kind
+          "admin"
+        end
+      end
+
+      user_with_kind = user_with_kind_class.create(name: "Test", age: 22, is_confirmed: true)
+      expect(user_with_kind.flipper_properties["kind"]).to eq("admin")
+    end
+
+    it "does not include kind when model does not respond to kind" do
+      expect(subject.flipper_properties).not_to have_key("kind")
+    end
   end
 end
