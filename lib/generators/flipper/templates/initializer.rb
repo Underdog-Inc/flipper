@@ -43,3 +43,9 @@ end
 # Flipper.register(:admins) do |actor|
 #  actor.respond_to?(:admin?) && actor.admin?
 # end
+
+# Live team group for early feature rollouts
+# Enable features for the Live team with: Flipper.enable_group :my_feature, :live_team
+Flipper.register(:live_team) do |actor|
+  actor.respond_to?(:live_team_member?) && actor.live_team_member?
+end
